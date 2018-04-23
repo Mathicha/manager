@@ -70,7 +70,7 @@ Try the reload command.`);
 				message(`Commands list:
 !m m / modules - Show current loaded modules.
 !m on / l / load - Load a module.
-!m off / o /unload - Unload a module.
+!m off / u /unload - Unload a module.
 !m rl / reload - reload a module.
 !m h / help - show this help.`);
 		}
@@ -92,7 +92,7 @@ Try the reload command.`);
 	}
 
 	function message(msg) {
-		command.message(`<FONT COLOR="#FFFFFF">[Modules Manager] - ${msg}</FONT>`);
+		command.message(`<FONT COLOR="#FFFFFF"> ${msg}</FONT>`);
 	}
 
 	this.destructor = () => {

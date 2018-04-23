@@ -14,7 +14,7 @@ All commands start with `/8 m`
 
 * load a module.
 
-**off / o /unload**
+**off / u /unload**
 
 * Unload a module.
 
