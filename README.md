@@ -4,8 +4,6 @@ Load / Unload [tera-proxy](https://meishuu.github.io/tera-proxy) modules with ch
 
 # Commands
 
-All commands start with `m`
-
 **`\8 modules`**
 
 * Show help and current loaded modules.
