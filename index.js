@@ -2,77 +2,54 @@ const Command = require('command');
 module.exports = function ModulesManager(dispatch) {
 	const command = Command(dispatch);
 
-	command.add('m', (c, m) => {
-		switch (c) {
-			case 'm':
-			case 'modules':
-				message(`Loaded modules: ${Array.from(dispatch.base.modules.keys()).join(', ')}`);
-				break;
+	command.add('modules', m => {
+		message(`Commands list:
+/8 modules - Show help & current loaded modules.
+/8 load - Load a module.
+/8 unload - Unload a module.
+/8 reload - Reload a module.`);
+		message(`Loaded modules: ${Array.from(dispatch.base.modules.keys()).join(', ')}`);
+	});
 
-			case 'on':
-			case 'l':
-			case 'load':
-				if (dispatch.base.modules.has(m)) {
-					message(`Cannot load already loaded module '${m}'.
+	command.add('load', m => {
+		if (dispatch.base.modules.has(m)) {
+			message(`Cannot load already loaded module '${m}'.
 Try the reload command.`);
-					break;
-				}
+			return;
+		}
 
-				if (load(m)) {
-					message(`Module '${m}' successfully loaded.`);
-				} else {
-					message(`Error loading module '${m}'.`);
-				}
-				break;
+		if (load(m)) {
+			message(`Module '${m}' successfully loaded.`);
+		}
+	});
 
-			case 'off':
-			case 'u':
-			case 'unload':
-				if (m === (dispatch.moduleName || 'command')) {
-					message('Sorry but u cannot unload core module.');
-					break;
-				} else if (!dispatch.base.modules.has(m)) {
-					message(`Cannot unload non-loaded module '${m}'.`);
-					break;
-				}
+	command.add('unload', m => {
+		if (m === (dispatch.moduleName || 'command')) {
+			message('Sorry but u cannot unload core module.');
+			return;
+		} else if (!dispatch.base.modules.has(m)) {
+			message(`Cannot unload non-loaded module '${m}'.`);
+			return;
+		}
 
-				if (unload(m)) {
-					message(`Module '${m}' successfully unloaded.`);
-				} else {
-					message(`Error unloading module '${m}'.`);
-				}
-				break;
+		if (unload(m)) {
+			message(`Module '${m}' successfully unloaded.`);
+		}
+	});
 
-			case 'rl':
-			case 'reload':
-				if (m === (dispatch.moduleName || 'command')) {
-					message('Sorry but u cannot reload core module.');
-					break;
-				} else if (!dispatch.base.modules.has(m)) {
-					message(`Cannot unload non-loaded module '${m}'.`);
-					break;
-				}
+	command.add('reload', m => {
+		if (m === (dispatch.moduleName || 'command')) {
+			message('Sorry but u cannot reload core module.');
+			return;
+		} else if (!dispatch.base.modules.has(m)) {
+			message(`Cannot unload non-loaded module '${m}'.`);
+			return;
+		}
 
-				if (unload(m)) {
-					if (load(m)) {
-						message(`Module '${m}' successfully reloaded.`);
-					} else {
-						message(`Error reloading module '${m}' (load step).`);
-					}
-				} else {
-					message(`Error reloading module '${m}' (unload step).`);
-				}
-				break;
-
-			case 'h':
-			case 'help':
-			default:
-				message(`Commands list:
-!m m / modules - Show current loaded modules.
-!m on / l / load - Load a module.
-!m off / u /unload - Unload a module.
-!m rl / reload - reload a module.
-!m h / help - show this help.`);
+		if (unload(m)) {
+			if (load(m)) {
+				message(`Module '${m}' successfully reloaded.`);
+			}
 		}
 	});
 
@@ -92,10 +69,12 @@ Try the reload command.`);
 	}
 
 	function message(msg) {
-		command.message(`<FONT COLOR="#FFFFFF"> ${msg}</FONT>`);
+		command.message(`<FONT COLOR="#FFFFFF">${msg}</FONT>`);
 	}
 
 	this.destructor = () => {
-		command.remove('m');
+		command.remove('load');
+		command.remove('unload');
+		command.remove('reload');
 	};
 };
