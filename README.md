@@ -1,3 +1,5 @@
+## DEPRECATED, USE `\8 proxy load/reload/unload <name>`
+
 # Modules Manager
 
 Load / Unload [tera-proxy](https://meishuu.github.io/tera-proxy) modules with chat [command](https://github.com/pinkipi/command).
